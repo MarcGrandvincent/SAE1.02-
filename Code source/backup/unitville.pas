@@ -11,6 +11,18 @@ uses unitLieu;
 //Renvoie le prochain lieu à visiter
 function villeHub() : typeLieu;
 
+
+
+
+
+
+
+
+
+
+
+
+
 implementation
 uses
     unitIHM,GestionEcran;
@@ -49,7 +61,8 @@ begin
     deplacerCurseurZoneAction(4);write('     2/ Se rendre aux marchands');
     deplacerCurseurZoneAction(5);write('     3/ Se rendre à la forge'); 
     deplacerCurseurZoneAction(6);write('     4/ Se rendre à la cantine');
-    deplacerCurseurZoneAction(7);write('     5/ Se rendre à la porte');
+    deplacerCurseurZoneAction(7);write('     5/ Se rendre au camps d''entrainement');
+    deplacerCurseurZoneAction(8);write('     6/ Se rendre à la porte');
 
     deplacerCurseurZoneResponse();
     readln(choix);
@@ -60,7 +73,8 @@ begin
        '2' : villeHub := marchand;
        '3' : villeHub := forge;  
        '4' : villeHub := cantine;
-       '5' : villeHub := expedition;
+       '5' : villeHub := camps;
+       '6' : villeHub := expedition;
   end;
 
 end;

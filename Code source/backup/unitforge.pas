@@ -11,6 +11,16 @@ uses
 function ForgeHUB() : typeLieu;
 
 
+
+
+
+
+
+
+
+
+
+
 implementation
 uses
     unitPersonnage,unitEquipement,unitIHM,GestionEcran;
@@ -38,16 +48,36 @@ begin
            if(getCoffre().armes[mat]) or (ord(getPersonnage().arme) = mat) then
            begin
                 couleurTexte(green);
-                deplacerCurseurXY(34,8+mat);write('(Déjà possédé(e))');
+                deplacerCurseurXY(39,8+mat);write('(Déjà possédé(e))');
            end
            else
            begin 
               //Arme non fabricable
               if not(peuxForger(materiaux(mat))) then couleurTexte(lightred);
+              if (peuxForger(materiaux(mat))) then
+                 begin
+                      case mat of
+                           2 : begin
+                                    if (getPersonnage.lvl < 3) then
+                                       couleurTexte(lightred);
+                               end;
+
+                           3 : begin
+                                    if (getPersonnage.lvl < 5) then
+                                       couleurTexte(lightred);
+                               end;
+                      end;
+                 end;
+
               //Affichage de la recette
-              deplacerCurseurXY(34,8+mat);writeln(recetteToString(materiaux(mat)));
+              deplacerCurseurXY(39,8+mat);writeln(recetteToString(materiaux(mat)));
            end;
-           deplacerCurseurXY(4,8+mat);writeln(mat,'/ ',armeToString(materiaux(mat)));
+           deplacerCurseurXY(4,8+mat);write(mat,'/ ',armeToString(materiaux(mat)));
+           case mat of
+                2 : write('       (Lvl 3)');
+
+                3 : write(' (Lvl 5)');
+           end;
            couleurTexte(white);
         end;
 
@@ -68,9 +98,35 @@ begin
                 else
                 begin
                     if not(peuxForger(materiaux(mat))) then couleurTexte(lightred);
+                    if (peuxForger(materiaux(mat))) then
+                        begin
+                             case mat of
+                                  2 : begin
+                                           if (getPersonnage.lvl < 3) then
+                                              couleurTexte(lightred);
+                                      end;
+
+                                  3 : begin
+                                           if (getPersonnage.lvl < 5) then
+                                              couleurTexte(lightred);
+                                      end;
+                             end;
+                        end;
+
                     deplacerCurseurXY(110,ligne);writeln(recetteToString(materiaux(mat)));
                 end;
-                deplacerCurseurXY(80,ligne);write(nbchoix,'/ ',armureToString(emplacementArmure(slot),materiaux(mat)));
+                deplacerCurseurXY(77,ligne);write(nbchoix,'/ ',armureToString(emplacementArmure(slot),materiaux(mat)));
+                case mat of
+                     2 : begin
+                              deplacerCurseurXY(100,ligne);
+                              write('(Lvl 3)');
+                         end;
+
+                     3 : begin
+                              deplacerCurseurXY(102,ligne);
+                              write('(Lvl 5)');
+                         end;
+                end;
                 nbchoix += 1;
                 ligne += 1;
                 couleurTexte(white);
@@ -90,9 +146,12 @@ begin
         //Demande de fabrication d'une arme
         if(choix < 4) and (choix > 0) then
         begin
-             //Si on peu la faire et si on ne la possède pas déjà
+             //Si on peu la faire et si on ne la possède pas déjà et que l'on a le niveau nécessaire
              if(peuxForger(materiaux(choix))) and (not (getCoffre().armes[choix])) and (not (ord(getPersonnage().arme) = choix)) then
-                forgerArme(materiaux(choix));
+                if (choix = 2) and (getPersonnage.lvl < 3) then
+                else if (choix = 3) and (getPersonnage.lvl < 5) then
+                else
+                    forgerArme(materiaux(choix));
         end;
         //Demande de fabrication d'une armure
         if(choix < 25) and (choix > 9) then
@@ -100,8 +159,11 @@ begin
              mat := ((choix-10) div 5)+1;
              slot := (choix-10) mod 5;
              //Si on peu la faire et si on ne la possède pas déjà
-             if(peuxForger(materiaux(mat))) and (not (getCoffre().armures[slot,mat])) and (not (ord(getPersonnage().armures[slot]) = mat)) then
-                forgerArmure(slot,materiaux(mat));
+             if (peuxForger(materiaux(mat))) and (not (getCoffre().armures[slot,mat])) and (not (ord(getPersonnage().armures[slot]) = mat)) then
+                if (mat = 2) and (getPersonnage.lvl < 3) then
+                else if (mat = 3) and (getPersonnage.lvl < 5) then
+                else
+                    forgerArmure(slot,materiaux(mat));
         end;
 
      end;

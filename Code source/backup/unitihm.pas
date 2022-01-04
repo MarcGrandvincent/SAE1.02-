@@ -19,6 +19,15 @@ procedure deplacerCurseurZoneAction(numLigne : integer);
 //Positionne le curseur à la n-ième ligne de la zone d'action
 procedure deplacerCurseurZoneResponse();
 
+
+
+
+
+
+
+
+
+
 implementation
 uses
     unitMonstre,unitObjet,unitPersonnage,unitEquipement,GestionEcran;
@@ -84,23 +93,25 @@ begin
     deplacerCurseurXY(155,7); write('       Nom : ',getPersonnage().nom);
     deplacerCurseurXY(155,8); write('     Genre : ',genreToString(getPersonnage().sexe));
     deplacerCurseurXY(155,9); write('    Taille : ',getPersonnage().taille);
+    deplacerCurseurXY(155,10); write('    Niveau : ',getPersonnage().lvl);
+    deplacerCurseurXY(155,11); write(' Exprience : ',getPersonnage().exp,'/',calculNextLvl());
 
-    deplacerCurseurXY(164,11);Write('   -------------   ');
+    deplacerCurseurXY(164,13);Write('   -------------   ');
 
-    deplacerCurseurXY(155,13); write('     Santé : ',getPersonnage().sante);
-    deplacerCurseurXY(155,14); write('    Argent : ',getPersonnage().argent);
+    deplacerCurseurXY(155,15); write('     Santé : ',getPersonnage().sante,'/',calculSanteMax);
+    deplacerCurseurXY(155,16); write('    Argent : ',getPersonnage().argent);
 
 
-    deplacerCurseurXY(164,16);Write('   -------------   ');
+    deplacerCurseurXY(164,18);Write('   -------------   ');
 
-    deplacerCurseurXY(155,18); write('      Arme : ',armeToString(getPersonnage().arme));
-    deplacerCurseurXY(155,19); write('    Casque : ',armureToString(Casque,getPersonnage().armures[0]));
-    deplacerCurseurXY(155,20); write('     Torse : ',armureToString(Torse,getPersonnage().armures[1]));
-    deplacerCurseurXY(155,21); write('     Gants : ',armureToString(Gants,getPersonnage().armures[2]));
-    deplacerCurseurXY(155,22); write(' Jambières : ',armureToString(Jambieres,getPersonnage().armures[3]));
-    deplacerCurseurXY(155,23); write('    Bottes : ',armureToString(Bottes,getPersonnage().armures[4]));
+    deplacerCurseurXY(155,20); write('      Arme : ',armeToString(getPersonnage().arme));
+    deplacerCurseurXY(155,21); write('    Casque : ',armureToString(Casque,getPersonnage().armures[0]));
+    deplacerCurseurXY(155,22); write('     Torse : ',armureToString(Torse,getPersonnage().armures[1]));
+    deplacerCurseurXY(155,23); write('     Gants : ',armureToString(Gants,getPersonnage().armures[2]));
+    deplacerCurseurXY(155,24); write(' Jambières : ',armureToString(Jambieres,getPersonnage().armures[3]));
+    deplacerCurseurXY(155,25); write('    Bottes : ',armureToString(Bottes,getPersonnage().armures[4]));
 
-    deplacerCurseurXY(164,25);Write('   -------------   ');
+    deplacerCurseurXY(164,27);Write('   -------------   ');
     for i:=0 to ord(high(TypeMonstre)) do
     begin
         deplacerCurseurXY(180-length(partieToString(TypeMonstre(i))),27+i);

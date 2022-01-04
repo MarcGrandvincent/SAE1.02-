@@ -8,7 +8,7 @@ interface
 //----- TYPES -----
 type
     //Les différents lieux principaux
-    typeLieu = (quitter,menuPrincipal,creationPersonnage,chambreArrivee,chambre,ville,forge,marchand,cantine,expedition);
+    typeLieu = (quitter,menuPrincipal,creationPersonnage,chambreArrivee,chambre,ville,forge,marchand,cantine,expedition,camps);
 
 //----- FONCTIONS ET PROCEDURES -----
 //Déplace le joueur dans le nouveau lieu et exécute le code associé à ce lieu.
@@ -30,7 +30,7 @@ function seRendre(destination : typeLieu) : typeLieu;
 
 implementation
 uses
-    UnitCantine,UnitForge,UnitChasse,UnitMenuPrincipal,unitChambre,unitVille,unitMarchand;
+    UnitCantine,UnitForge,UnitChasse,UnitMenuPrincipal,unitChambre,unitVille,unitMarchand,unitCamps;
 
 //----- VARIABLES -----
 var
@@ -59,6 +59,7 @@ begin
           expedition : chasseHub();                         //Porte de la ville
           forge : ForgeHUB();                               //Forge
           cantine : cantineHUB();                           //Cantine
+          camps : campsHUB();                               //Camps d'entrainement
      end;
 end;
 

@@ -48,12 +48,29 @@ begin
    afficherTitreMenuPrincipal();
    afficherLieu('Menu Principal');
    deplacerCurseurZoneAction(2);write('1/ Débuter une nouvelle partie');
-   deplacerCurseurZoneAction(4);write('2/ Quitter');
+   if (dataJoueur(1) = 1) then
+      begin
+           deplacerCurseurZoneAction(3);write('2/ Reprendre votre partie');
+      end;
+
+   deplacerCurseurZoneAction(4);write('0/ Quitter');
    deplacerCurseurZoneResponse();
    readln(choix);
    case choix of
         '1': menuPrincipalHub:=creationPersonnage;
-        else menuPrincipalHub:=quitter;
+        '2': begin
+                  if (dataJoueur(1) = 1) then
+                      begin
+                         menuPrincipalHub:=chambre;
+                         initialisationObjets();
+                         recupData();
+                         initialisationMonstres();
+                         initialisationObjets();
+                      end
+                  else
+                      menuPrincipalHub := menuPrincipal;
+        end;
+        '0': menuPrincipalHub:=quitter;
    end;
 end;
 
@@ -119,10 +136,9 @@ begin
      couleurTexte(white);
      deplacerCurseurXY(55,23);write('Alors que le capitaine et vous commencez à échanger quelques banalités, le ciel se couvre');
      deplacerCurseurXY(55,24);write('brutalement. En quelques secondes à peine, la mer, jusque-là calme, se transforme un monstre');
-     deplacerCurseurXY(55,25);write('rugissant. Le bateau tangue violemment vous projetant contre une paroie. Vos sente votre tê');
-     deplacerCurseurXY(55,26);write('te heurter celle-ci violemment et le monde autour de vous disparaît.');
+     deplacerCurseurXY(55,25);write('rugissant. Le bateau tangue violemment vous projetant contre une paroie. Vous sentez votre');
+     deplacerCurseurXY(55,26);write('tête heurter celle-ci violemment et le monde autour de vous disparaît.');
      readln;
-
      creationPersonnageHub:=chambreArrivee;
 end;
 

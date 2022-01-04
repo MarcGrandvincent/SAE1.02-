@@ -2,11 +2,16 @@
 program MonsterHunter;
 
 uses UnitLieu, unitIHM, unitPersonnage, unitObjet, unitChambre, unitEquipement,
-  unitVille, unitMarchand, unitMonstre, unitChasse, unitCantine, unitForge;
+  unitVille, unitMarchand, unitMonstre, unitChasse, unitCantine, unitForge,
+  unitCamps, unitCompetence;
 
 var lieuEnCours : typeLieu;  //Lieu où se trouve le "joueur"
 
 begin
+  //Randomize
+  Randomize;
+  //On vérifie que les fichiers existes
+  creationFichier;
   //Le programme commence au niveau du menu principal
   LieuEnCours := menuPrincipal;
   //Tant que l'utilisateur ne souhaite pas quitter

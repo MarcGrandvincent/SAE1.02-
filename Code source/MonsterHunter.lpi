@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="10"/>
+    <Version Value="11"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -22,11 +22,12 @@
       <Version Value="2"/>
     </PublishOptions>
     <RunParams>
-      <local>
-        <FormatVersion Value="1"/>
-      </local>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default"/>
+      </Modes>
     </RunParams>
-    <Units Count="15">
+    <Units Count="17">
       <Unit0>
         <Filename Value="MonsterHunter.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -101,6 +102,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="unitForge"/>
       </Unit14>
+      <Unit15>
+        <Filename Value="unitcamps.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="unitCamps"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="unitcompetence.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="unitCompetence"/>
+      </Unit16>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

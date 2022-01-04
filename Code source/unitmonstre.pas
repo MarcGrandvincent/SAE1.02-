@@ -35,6 +35,8 @@ function getMonstre(i : integer) : TMonstre;
 
 
 implementation
+uses unitPersonnage;
+
 var
   monstres : TCatalogueMonstre;              //Catalogue des monstres
 
@@ -42,13 +44,13 @@ var
 procedure initialisationMonstres();
 begin
   monstres[0].typeM:=Jagras;
-  monstres[0].pv:=100;
+  monstres[0].pv:=90+(10*getPersonnage.lvl);
   monstres[0].stun:=0;
-  monstres[0].prime := 200;
+  monstres[0].prime := 200+(10*getPersonnage.lvl);
   monstres[1].typeM:=Pukei;
-  monstres[1].pv:=200;
+  monstres[1].pv:=195+(5*getPersonnage.lvl);
   monstres[1].stun:=0;     
-  monstres[1].prime := 500;
+  monstres[1].prime := 500+(20*getPersonnage.lvl);
 end;
 
 //Renvoie le nom du monstre
