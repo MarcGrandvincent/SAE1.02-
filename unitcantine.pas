@@ -6,14 +6,32 @@ unit unitCantine;
 interface
 //----- FONCTIONS ET PROCEDURES -----
 uses
-  unitLieu,crtperso;
+  unitLieu,crtperso,sysutils,unitPersonnage,unitIHM,GestionEcran,Math;
 
+type
+    recette = record
+    nomR:string;
+    effet:integer;
+    end;
+
+CatalogueRecette = array[1..5000] of recette;
+
+var
+    tRecette : CatalogueRecette;
 
 //Fonction exécutée à l'arrivée dans la cantine
 //Renvoie le prochain lieu à visiter
 function cantineHUB() : typeLieu;
 
 procedure initialiationRecettes();
+
+function compareNames(a, b : string): boolean;
+
+procedure MergeSortRecette (var tRecette: CatalogueRecette; p, r: integer);
+procedure MergeSortBonus (var tRecette: CatalogueRecette; p, r: integer);
+
+procedure MergeRecette (var tRecette: CatalogueRecette; p, q, r: integer);
+procedure MergeBonus (var tRecette: CatalogueRecette; p, q, r: integer);
 
 
 
@@ -25,16 +43,8 @@ procedure initialiationRecettes();
 
 
 implementation
-uses
-  sysutils,unitPersonnage,unitIHM,GestionEcran;
-type
-    recette = record
-    nomR:string;
-    effet:integer;
-    end;
-var
 
-CatalogueRecette : array[1..5000] of recette;
+
 
 //Remplis le tableau de toutes les recettes
 procedure initialiationRecettes();
@@ -51,24 +61,24 @@ begin
   for i:= 1 to 5000 do
   begin
        readln(fichier,ligne);
-       CatalogueRecette[i].nomR:=' ';
+       tRecette[i].nomR:=' ';
        j:=0;
 
        while (ligne[j]<>'/') do
        begin
 
-            CatalogueRecette[i].nomR:=CatalogueRecette[i].nomR+ligne[j];
+            tRecette[i].nomR:=tRecette[i].nomR+ligne[j];
             j:=j+1;
 
        end;
 
 
-       if ligne[length(CatalogueRecette[i].nomR)+1]='C' then
-       CatalogueRecette[i].effet:=3
-       else if ligne[length(CatalogueRecette[i].nomR)+1]='R' then
-       CatalogueRecette[i].effet:=2
-       else if ligne[length(CatalogueRecette[i].nomR)+1]='F' then
-       CatalogueRecette[i].effet:=1;
+       if ligne[length(tRecette[i].nomR)+1]='C' then
+       tRecette[i].effet:=3
+       else if ligne[length(tRecette[i].nomR)+1]='R' then
+       tRecette[i].effet:=2
+       else if ligne[length(tRecette[i].nomR)+1]='F' then
+       tRecette[i].effet:=1;
 
 
 
@@ -87,7 +97,7 @@ begin
 end;
 function effetToString(nb:integer) : String;
 begin
-  case CatalogueRecette[nb].effet of
+  case tRecette[nb].effet of
        1:effetToString:='(Force)       ';
        2:effetToString:='(Regénération)';
        3:effetToString:='(Critique)    ';
@@ -129,7 +139,7 @@ begin
     for i:= 1+page*10 to 1+page*10+9 do
     begin
          deplacerCurseurXY(13,y);
-         write(i, '/ ',CatalogueRecette[i].nomR,'                               ');
+         write(i, '/ ',tRecette[i].nomR,'                               ');
 
          deplacerCurseurXY(96,y);
          write(effetToString(i));
@@ -163,7 +173,7 @@ begin
         else if(TryStrToInt(choix,choixNumber)) then
              begin
              if(choixNumber > 0) and (choixNumber < 5001) then
-             manger(CatalogueRecette[choixNumber].effet);
+             manger(tRecette[choixNumber].effet);
              end;
         afficherCadreResponse();
         deplacerCurseurXY(155,32);Write('      Buff : ',bonusToString(getPersonnage().buff),'      ');
@@ -214,5 +224,154 @@ begin
   end;
 
 end;
-end.
 
+//compare deux cchianes de caracteres par ordre alphabetique
+function compareNames(a, b : string): boolean;
+var
+    i: integer = 1;
+    fini : boolean = false;
+    res : boolean;
+
+begin
+    while(fini <> true) do
+    begin
+    if (ord(a[i]) < ord(b[i])) then
+        begin
+            fini := True;
+           res := True;
+        end
+    else
+        if (ord(a[i]) > ord(b[i])) then
+            begin
+                fini := True;
+                res := False;
+            end
+    else
+        if (i >= Min(length(a),length(b))) then
+            fini := True
+        else
+            i:= i+1;
+    end;
+    compareNames := res;
+end;
+
+
+//---------------------TRI PAR AlPHABETIQUE---------------------//
+
+//function pricipal pour le tri à fusion
+procedure MergeSortRecette (var tRecette: CatalogueRecette; p, r: integer);
+var q: integer;        //le millieu d'un tableau
+begin
+
+    if (p < r) then
+    begin
+        q := (p + r) div 2;
+        //récursion sur la partie guache
+        MergeSortRecette (tRecette, p, q);
+        //récursion sur la partie droite
+        MergeSortRecette (tRecette, q + 1, r);
+        //On fusionne les deux moitiés
+        MergeRecette (tRecette, p, q, r);
+    end;
+end;
+
+//---------Fusion en se basant sur les recettes----------//
+procedure MergeRecette (var tRecette: CatalogueRecette; p, q, r: integer);
+var
+    i, j, k: integer;
+    temp: CatalogueRecette;
+begin
+    i := p;
+    j := q + 1;
+    k := p;
+    while ((i <= q) and (j <= r)) do
+    begin
+    if (compareNames(tRecette[i].nomR, tRecette[j].nomR)) then
+        begin
+            temp[k] := tRecette[i];
+            i := i + 1;
+        end
+    else
+        begin
+            temp[k] := tRecette[j];
+            j := j + 1;
+        end;
+    k := k + 1;
+    end;
+    while (i <= q) do
+    begin
+        temp[k] := tRecette[i];
+        k := k + 1;
+        i := i + 1;
+    end;
+    while (j <= r) do
+    begin
+        temp[k] := tRecette[j];
+        k := k + 1;
+        j := j + 1;
+    end;
+    for k := p to r do tRecette[k] := temp[k];
+end;
+
+
+//---------------------TRI PAR BONUS---------------------//
+procedure MergeSortBonus (var tRecette: CatalogueRecette; p, r: integer);
+var q: integer;        //le millieu d'un tableau
+begin
+
+    if (p < r) then
+    begin
+        q := (p + r) div 2;
+        //récursion sur la partie guache
+        MergeSortBonus (tRecette, p, q);
+        //récursion sur la partie droite
+        MergeSortBonus (tRecette, q + 1, r);
+        //On fusionne les deux moitiés
+        MergeBonus (tRecette, p, q, r);
+    end;
+end;
+
+
+
+//---------Fusion en se basant sur le bonus----------//
+procedure MergeBonus (var tRecette: CatalogueRecette; p, q, r: integer);
+var
+    i, j, k: integer;
+    temp: CatalogueRecette;
+begin
+    i := p;
+    j := q + 1;
+    k := p;
+    while ((i <= q) and (j <= r)) do
+    begin
+    if (tRecette[i].effet < tRecette[j].effet) then
+        begin
+            temp[k] := tRecette[i];
+            i := i + 1;
+        end
+    else
+        begin
+            temp[k] := tRecette[j];
+            j := j + 1;
+        end;
+    k := k + 1;
+    end;
+    while (i <= q) do
+    begin
+        temp[k] := tRecette[i];
+        k := k + 1;
+        i := i + 1;
+    end;
+    while (j <= r) do
+    begin
+        temp[k] := tRecette[j];
+        k := k + 1;
+        j := j + 1;
+    end;
+    for k := p to r do tRecette[k] := temp[k];
+end;
+
+
+
+
+end.
