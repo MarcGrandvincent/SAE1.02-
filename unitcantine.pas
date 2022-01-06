@@ -1,3 +1,4 @@
+
 //Unit en charge de la cantine
 unit unitCantine;
 {$codepage utf8}
@@ -17,7 +18,7 @@ type
 CatalogueRecette = array[1..5000] of recette;
 
 var
-    tRecette : CatalogueRecette;
+    tRecette : CatalogueRecette;  //tableau de recettes
 
 //Fonction exécutée à l'arrivée dans la cantine
 //Renvoie le prochain lieu à visiter
@@ -25,20 +26,16 @@ function cantineHUB() : typeLieu;
 
 procedure initialiationRecettes();
 
+//renvoi vrai si le premier parametre est plus petit (alphabetiquement)
 function compareNames(a, b : string): boolean;
 
-procedure MergeSortRecette (var tRecette: CatalogueRecette; p, r: integer);
-procedure MergeSortBonus (var tRecette: CatalogueRecette; p, r: integer);
+//procedures pricipales pour le tri à fusion
+procedure TriFusionRecette (var tRecette: CatalogueRecette; debut, fin: integer);
+procedure TriFusionBonus (var tRecette: CatalogueRecette; debut, fin: integer);
 
-procedure MergeRecette (var tRecette: CatalogueRecette; p, q, r: integer);
-procedure MergeBonus (var tRecette: CatalogueRecette; p, q, r: integer);
-
-
-
-
-
-
-
+//procedures pour la fusion
+procedure FusionRecette (var tRecette: CatalogueRecette; debut, millieu, fin : integer);
+procedure FusionBonus (var tRecette: CatalogueRecette; debut, millieu, fin : integer);
 
 
 
@@ -119,7 +116,7 @@ begin
   begin
     afficherInterfacePrincipale();
     afficherLieu('Cantine de la ville de Brightwood');
-                                                        
+
     deplacerCurseurXY(63,5);write('Le cuisinier vous proposent :');
     couleurTexte(Cyan);
     deplacerCurseurXY(13,8);write('Plat');
@@ -173,12 +170,12 @@ begin
                      page:=0;
                      if tri mod 2 = 0 then
                      begin
-                          MergeSortRecette (tRecette, low(tRecette), high(tRecette));
+                          TriFusionRecette (tRecette, low(tRecette), high(tRecette));
                           deplacerCurseurXY(110,24);write('Trié par : Ordre Alphabétique');
                      end
                      else if tri mod 2 = 1 then
                      begin
-                          MergeSortBonus (tRecette, low(tRecette), high(tRecette));
+                          TriFusionBonus (tRecette, low(tRecette), high(tRecette));
                           deplacerCurseurXY(110,24);write('Trié par : Bonus              ');
                      end;
                 end;
@@ -249,16 +246,19 @@ begin
 
 end;
 
-//compare deux cchianes de caracteres par ordre alphabetique
+{compare deux chaines de caracteres par ordre alphabetique
+et renvoi vrai si le premier parametre est plus petit (alphabetiquement)}
+
 function compareNames(a, b : string): boolean;
 var
-    i: integer = 1;
-    fini : boolean = false;
-    res : boolean;
+    i: integer = 1;         //compteur
+    fini : boolean = false; //variable de sortie
+    res : boolean;          //variable pour le resultat
 
 begin
     while(fini <> true) do
     begin
+    //comparaison de code ascii
     if (ord(a[i]) < ord(b[i])) then
         begin
             fini := True;
@@ -271,6 +271,7 @@ begin
                 res := False;
             end
     else
+        //Si sont egaux et une chaine à fini donc on sort
         if (i >= Min(length(a),length(b))) then
             fini := True
         else
@@ -280,119 +281,145 @@ begin
 end;
 
 
-//---------------------TRI PAR AlPHABETIQUE---------------------//
+//---------------------TRI PAR ORDRE ALPHABETIQUE---------------------//
 
-//function pricipal pour le tri à fusion
-procedure MergeSortRecette (var tRecette: CatalogueRecette; p, r: integer);
-var q: integer;        //le millieu d'un tableau
+//procedure pricipal pour le tri à fusion
+procedure TriFusionRecette (var tRecette: CatalogueRecette; debut, fin: integer);
+var
+    millieu : integer;        //indice pour le millieu d'un tableau
 begin
 
-    if (p < r) then
+    if (debut < fin) then
     begin
-        q := (p + r) div 2;
-        //récursion sur la partie guache
-        MergeSortRecette (tRecette, p, q);
-        //récursion sur la partie droite
-        MergeSortRecette (tRecette, q + 1, r);
+        millieu := (debut + fin) div 2;
+        //récursion sur la artie guache
+        TriFusionRecette (tRecette, debut, millieu);
+        //récursion sur la artie droite
+        TriFusionRecette (tRecette, millieu + 1, fin);
         //On fusionne les deux moitiés
-        MergeRecette (tRecette, p, q, r);
+        FusionRecette (tRecette, debut, millieu, fin);
     end;
 end;
 
 //---------Fusion en se basant sur les recettes----------//
-procedure MergeRecette (var tRecette: CatalogueRecette; p, q, r: integer);
+procedure FusionRecette (var tRecette: CatalogueRecette; debut, millieu, fin : integer);
 var
-    i, j, k: integer;
-    temp: CatalogueRecette;
+    i, j, k: integer;       //compteurs
+    temp: CatalogueRecette; //record de recettes temporaire
 begin
-    i := p;
-    j := q + 1;
-    k := p;
-    while ((i <= q) and (j <= r)) do
+    i := debut;
+    j := millieu + 1;
+    k := debut;
+    while ((i <= millieu) and (j <= fin)) do
     begin
+
     if (compareNames(tRecette[i].nomR, tRecette[j].nomR)) then
         begin
+            //on prend l'element de la partie gauche
             temp[k] := tRecette[i];
+            //on increment le indice de la partie gauche
             i := i + 1;
         end
     else
         begin
+            //on prend l'element de la partie droite
             temp[k] := tRecette[j];
+            //on increment le inidce de la partie droite
             j := j + 1;
         end;
-    k := k + 1;
+    k := k + 1;  //increment indice de temp
     end;
-    while (i <= q) do
+
+    //remplir temp de ceux qui reste dans la partie guache (si y en a)
+    while (i <= millieu) do
     begin
         temp[k] := tRecette[i];
         k := k + 1;
         i := i + 1;
     end;
-    while (j <= r) do
+
+    //remplir temp de ceux qui reste dans la partie droite (si y en a)
+    while (j <= fin) do
     begin
         temp[k] := tRecette[j];
         k := k + 1;
         j := j + 1;
     end;
-    for k := p to r do tRecette[k] := temp[k];
+
+    //remplir notre tableau du debut jusqu'à la fin (trié)
+    for k := debut to fin do tRecette[k] := temp[k];
+
 end;
 
 
 //---------------------TRI PAR BONUS---------------------//
-procedure MergeSortBonus (var tRecette: CatalogueRecette; p, r: integer);
-var q: integer;        //le millieu d'un tableau
+procedure TriFusionBonus (var tRecette: CatalogueRecette; debut, fin: integer);
+var
+    millieu : integer;        //indice pour le millieu d'un tableau
 begin
 
-    if (p < r) then
+    if (debut < fin) then
     begin
-        q := (p + r) div 2;
-        //récursion sur la partie guache
-        MergeSortBonus (tRecette, p, q);
-        //récursion sur la partie droite
-        MergeSortBonus (tRecette, q + 1, r);
+        millieu := (debut + fin) div 2;
+        //récursion sur la artie guache
+        TriFusionBonus (tRecette, debut, millieu);
+        //récursion sur la artie droite
+        TriFusionBonus (tRecette, millieu + 1, fin);
         //On fusionne les deux moitiés
-        MergeBonus (tRecette, p, q, r);
+        FusionBonus (tRecette, debut, millieu, fin);
     end;
 end;
 
 
 
 //---------Fusion en se basant sur le bonus----------//
-procedure MergeBonus (var tRecette: CatalogueRecette; p, q, r: integer);
+procedure FusionBonus (var tRecette: CatalogueRecette; debut, millieu, fin : integer);
 var
-    i, j, k: integer;
-    temp: CatalogueRecette;
+    i, j, k: integer;       //compteurs
+    temp: CatalogueRecette; //record de recettes temporaire
 begin
-    i := p;
-    j := q + 1;
-    k := p;
-    while ((i <= q) and (j <= r)) do
+    i := debut;
+    j := millieu + 1;
+    k := debut;
+    while ((i <= millieu) and (j <= fin)) do
     begin
+
     if (tRecette[i].effet < tRecette[j].effet) then
         begin
+            //on prend l'element de la partie gauche
             temp[k] := tRecette[i];
+            //on increment le indice de la partie gauche
             i := i + 1;
         end
     else
         begin
+            //on prend l'element de la partie droite
             temp[k] := tRecette[j];
+            //on increment le inidce de la partie droite
             j := j + 1;
         end;
-    k := k + 1;
+    k := k + 1;  //increment indice de temp
     end;
-    while (i <= q) do
+
+    //remplir temp de ceux qui reste dans la partie guache (si y en a)
+    while (i <= millieu) do
     begin
         temp[k] := tRecette[i];
         k := k + 1;
         i := i + 1;
     end;
-    while (j <= r) do
+
+    //remplir temp de ceux qui reste dans la partie droite (si y en a)
+    while (j <= fin) do
     begin
         temp[k] := tRecette[j];
         k := k + 1;
         j := j + 1;
     end;
-    for k := p to r do tRecette[k] := temp[k];
+
+    //remplir notre tableau du debut jusqu'à la fin (trié)
+    for k := debut to fin do tRecette[k] := temp[k];
+
 end;
 
 
