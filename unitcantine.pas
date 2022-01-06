@@ -110,6 +110,7 @@ var
   choix : string;
   choixNumber,page,i,y : integer;
   Ch : Char;
+  tri:integer;
 begin
   choix := '';
   page:=0;
@@ -126,13 +127,18 @@ begin
 
     couleurTexte(White);
 
+    deplacerCurseurXY(110,24);write('Trié par : Aucun    ');
 
     deplacerCurseurZoneAction(1);write('Que souhaitez-vous faire ?');
     deplacerCurseurZoneAction(3);write('     ?/ Commander un plat (entrer son numéro)');
 
     deplacerCurseurZoneAction(6);write('     0/ Retourner sur la place principale');
-
+    deplacerCurseurXY(85,33);write('Haut/Bas > trier les recettes');
+    deplacerCurseurXY(85,36);write('Gauche/Droite >  changer de page');
     repeat
+
+
+
     deplacerCurseurXY(50,25);write('Page : ',page,' ');
     y:=10;
 
@@ -162,17 +168,21 @@ begin
                      page:=page-1;
                 end;
 
-        #72:    begin                     // Haut
-
-          // PROCEDURE FUSION PAR ORDRE ALPHABETIQUE
-
+        #72,#80:    begin                     // Haut / BAS
+                     tri:=tri+1;
+                     page:=0;
+                     if tri mod 2 = 0 then
+                     begin
+                          MergeSortRecette (tRecette, low(tRecette), high(tRecette));
+                          deplacerCurseurXY(110,24);write('Trié par : Ordre Alphabétique');
+                     end
+                     else if tri mod 2 = 1 then
+                     begin
+                          MergeSortBonus (tRecette, low(tRecette), high(tRecette));
+                          deplacerCurseurXY(110,24);write('Trié par : Bonus              ');
+                     end;
                 end;
 
-        #80:    begin                     // Bas
-
-          // PROCEDURE FUSION PAR BONUS
-
-                end;
 
         end
     else
