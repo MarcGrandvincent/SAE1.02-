@@ -506,9 +506,9 @@ function degatsAttaque() : integer;
 var  coeff : integer = 1;
      seuilProba : Integer = 1;
 begin
-    randomize;
     if (perso.buff = Critique) then
        seuilProba := 2;
+    writeln(random(11));
     readln();
     if (random(11)<=seuilProba) then
         coeff :=2;

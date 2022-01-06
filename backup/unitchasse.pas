@@ -187,11 +187,11 @@ begin
                   else
                       begin
                            deplacerCurseurXY(30,15);
-                           write('Vous ne maitrisez aucune compétence !                                                                   ');
+                           write('Vous ne maitrisez aucune compétence !                         ');
                            for i := 1 to 4 do
                            begin
                                deplacerCurseurXY(30,15+i);
-                               write('                                                                                                     ');
+                               write('                                                              ');
                            end;
                            readln();
                       end;

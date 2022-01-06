@@ -115,7 +115,7 @@ begin
          begin
               recupererPrime(300);
               ajouterArme(4);
-              AjouterArmure(1,4);
+              AjouterArmure(2,4);
          end;
 
      //Taille du personnage

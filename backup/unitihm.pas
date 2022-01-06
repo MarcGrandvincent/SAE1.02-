@@ -181,7 +181,7 @@ begin
 end;
 
 //Affiche l'interface de la forge
-procedure afficherInterfaceForge();
+procedure afficherInterfaceFroge();
 begin
   effacerEcran;
   //Cadre extérieur

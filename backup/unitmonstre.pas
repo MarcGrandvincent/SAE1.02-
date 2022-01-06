@@ -44,7 +44,7 @@ var
 procedure initialisationMonstres();
 begin
   monstres[0].typeM:=Jagras;
-  monstres[0].pv:=90+(10*getPersonnage.lvl);
+  monstres[0].pv:=100+(10*getPersonnage.lvl);
   monstres[0].stun:=0;
   monstres[0].prime := 200+(10*getPersonnage.lvl);
   monstres[1].typeM:=Pukei;

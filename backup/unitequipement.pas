@@ -51,7 +51,7 @@ begin
         fer : armureToString += ' en fer';
         Os : armureToString += ' en os';
         Ecaille : armureToString += ' en écaille';
-        Obsidienne : armureToString += ' en obsidienne';
+        Obsidienne : armureToString += 'en obsidienne';
     end;
   end;
 end;

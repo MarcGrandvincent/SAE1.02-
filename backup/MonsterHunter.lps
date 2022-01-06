@@ -56,10 +56,9 @@
         <Filename Value="unitpersonnage.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unitPersonnage"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="12"/>
-        <TopLine Value="491"/>
-        <CursorPos X="66" Y="513"/>
+        <TopLine Value="94"/>
+        <CursorPos X="47" Y="123"/>
         <UsageCount Value="167"/>
         <Loaded Value="True"/>
       </Unit5>
@@ -118,7 +117,6 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="unitMonstre"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="28"/>
         <CursorPos X="31" Y="17"/>
         <UsageCount Value="108"/>
         <Loaded Value="True"/>
@@ -137,8 +135,9 @@
         <Filename Value="unitcantine.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unitCantine"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="115"/>
+        <TopLine Value="151"/>
         <CursorPos X="48" Y="250"/>
         <UsageCount Value="106"/>
         <Loaded Value="True"/>

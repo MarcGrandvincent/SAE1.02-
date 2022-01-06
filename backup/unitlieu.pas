@@ -30,7 +30,7 @@ function seRendre(destination : typeLieu) : typeLieu;
 
 implementation
 uses
-    UnitCantine,UnitForge,UnitChasse,UnitMenuPrincipal,unitChambre,unitVille,unitMarchand,unitCamps;
+    UnitCantine,UnitForge,UnitChasse,UnitMenuPrincipal,unitChambre,unitVille,unitMarchand;
 
 //----- VARIABLES -----
 var

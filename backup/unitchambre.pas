@@ -96,7 +96,7 @@ begin
              chambrePremiereFois := chambreArrivee;
        end;
        '4' : chambrePremiereFois := ville;
-       '5' : chambrePremiereFois := cantine;
+       '5' : chambreHub := cantine;
   end;
 
 end;

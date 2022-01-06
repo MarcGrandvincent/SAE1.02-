@@ -10,7 +10,6 @@ var lieuEnCours : typeLieu;  //Lieu où se trouve le "joueur"
 begin
   //Randomize
   Randomize;
-  initialiationRecettes();
   //On vérifie que les fichiers existes
   verificationFichier;
   //Le programme commence au niveau du menu principal

@@ -68,7 +68,7 @@ begin
                                end;
                            4 : begin
                                     if (getPersonnage.lvl < 8) then
-                                       couleurTexte(lightred);
+                                       couleurTexte(couleurTextelightred);
                              end;
                       end;
                  end;
