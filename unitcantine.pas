@@ -151,15 +151,29 @@ begin
 
     case Ch of
     #0: case ReadKey of    { Le code est #0, on appelle à nouveau ReadKey }
-        #77:    begin
+
+        #77:    begin                     // Droite
                      if page<499 then
                      page:=page+1;
                 end;
 
-        #75:    begin
+        #75:    begin                     // Gauche
                      if page>0 then
                      page:=page-1;
                 end;
+
+        #72:    begin                     // Haut
+
+          // PROCEDURE FUSION PAR ORDRE ALPHABETIQUE
+
+                end;
+
+        #80:    begin                     // Bas
+
+          // PROCEDURE FUSION PAR BONUS
+
+                end;
+
         end
     else
         begin
