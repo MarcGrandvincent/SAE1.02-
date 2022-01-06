@@ -165,13 +165,13 @@ begin
         #72:    begin                     // Haut
 
           // PROCEDURE FUSION PAR ORDRE ALPHABETIQUE
-
+                MergeSortRecette (tRecette, low(tRecette), high(tRecette));
                 end;
 
         #80:    begin                     // Bas
 
           // PROCEDURE FUSION PAR BONUS
-
+                MergeSortBonus (tRecette, low(tRecette), high(tRecette));
                 end;
 
         end
