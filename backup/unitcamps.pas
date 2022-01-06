@@ -65,11 +65,11 @@ begin
     afficherInterfacePrincipale();
     afficherLieu('Camps d''entrainement de la ville de Brightwood');
     deplacerCurseurXY(30,7);write('Vous arrivez au camp d''entrainement. Vous entendez les chocs des lames qui s''entrecroise.');
-    deplacerCurseurXY(30,8);write('Vous regardez autour de vous, il y au moins une vingtaine de chasseur, dont certain qui s-');
-    deplacerCurseurXY(30,9);write('-ont très célèbre.');
+    deplacerCurseurXY(30,8);write('Vous regardez autour de vous, il y au moins une vingtaine de chasseur, dont certains qui s-');
+    deplacerCurseurXY(30,9);write('-ont très célèbres.');
 
     deplacerCurseurXY(30,12);write('Un instructeur s''approche de vous, avec un katana à la main. La lame a été forger dans un');
-    deplacerCurseurXY(30,13);write('métaux très rare qui lui donne un rouge vif tel une flamme qui crépite autour de l''épée');
+    deplacerCurseurXY(30,13);write('métal très rare qui lui donne un rouge vif telle une flamme qui crépite autour de l''épée');
 
     deplacerCurseurXY(30,15);write('Il s''approche et dit :');
 

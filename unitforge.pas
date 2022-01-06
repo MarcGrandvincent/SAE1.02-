@@ -81,6 +81,7 @@ begin
                 2 : write('       (Lvl 3)');
 
                 3 : write(' (Lvl 5)');
+                4 : write('(Lvl 8)');
            end;
            couleurTexte(white);
         end;
@@ -152,7 +153,7 @@ begin
         readln(choix);
 
         //Demande de fabrication d'une arme
-        if(choix < 4) and (choix > 0) then
+        if(choix < 5) and (choix > 0) then
         begin
              //Si on peu la faire et si on ne la possède pas déjà et que l'on a le niveau nécessaire
              if(peuxForger(materiaux(choix))) and (not (getCoffre().armes[choix])) and (not (ord(getPersonnage().arme) = choix)) then
@@ -163,7 +164,7 @@ begin
                     forgerArme(materiaux(choix));
         end;
         //Demande de fabrication d'une armure
-        if(choix < 25) and (choix > 9) then
+        if(choix < 30) and (choix > 9) then
         begin
              mat := ((choix-10) div 5)+1;
              slot := (choix-10) mod 5;

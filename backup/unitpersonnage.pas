@@ -161,7 +161,7 @@ begin
      perso.sexe := sexe;
      perso.taille := dataJoueur(3);                                                     // On recupère la taille du joueur
      for i:= 1 to nbObjets do perso.inventaire[i] := dataJoueur(3+i);                   // On recupère les objets du joueur
-     for i:= 0 to ord(high(TypeMonstre)) do perso.parties[i] := dataJoueur(6+i);        // On recupère les parties de monstre du joueur
+     for i:= 0 to ord(high(TypeMonstre)) do perso.parties[i] := 200;//dataJoueur(6+i);        // On recupère les parties de monstre du joueur
      case dataJoueur(8) of                                                              // On recupère l'arme du joueur
           0 : arme := aucun;
           1 : arme := fer;
@@ -182,7 +182,7 @@ begin
             perso.armures[i] := armure;
        end;
      perso.sante := dataJoueur(14);                                                     // On recupère la santé du joueur
-     perso.argent := dataJoueur(15);                                                    // On recupère l'argent du joueur
+     perso.argent := 10000;// dataJoueur(15);                                                    // On recupère l'argent du joueur
      case dataJoueur(16) of                                                             // On recupère le buff du joueur
           0 : buff := AucunB;
           1 : buff := Force;
@@ -191,7 +191,7 @@ begin
      end;
      perso.buff := buff;
      perso.exp := dataJoueur(17);                                                       // On recupère l'expérience du joueur
-     perso.lvl := dataJoueur(18);                                                       // On recupère le niveau du joueur
+     perso.lvl := 9;//dataJoueur(18);                                                       // On recupère le niveau du joueur
      for i:= 1 to 3 do perso.competence[i] := dataJoueur(18+i);                         // On recupère les compétences du joueur
      for i:= 0 to 4 do                                                                  // On recupère les armures dans le coffre du joueur
        begin
@@ -506,9 +506,9 @@ function degatsAttaque() : integer;
 var  coeff : integer = 1;
      seuilProba : Integer = 1;
 begin
+    randomize;
     if (perso.buff = Critique) then
        seuilProba := 2;
-    writeln(random(11));
     readln();
     if (random(11)<=seuilProba) then
         coeff :=2;

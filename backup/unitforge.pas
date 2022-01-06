@@ -68,7 +68,7 @@ begin
                                end;
                            4 : begin
                                     if (getPersonnage.lvl < 8) then
-                                       couleurTexte(couleurTextelightred);
+                                       couleurTexte(lightred);
                              end;
                       end;
                  end;
@@ -81,6 +81,7 @@ begin
                 2 : write('       (Lvl 3)');
 
                 3 : write(' (Lvl 5)');
+                4 : write('(Lvl 8)');
            end;
            couleurTexte(white);
         end;
